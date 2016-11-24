@@ -30,7 +30,6 @@ function addButtonClick() {
         field.value = ''
         getMovieList()
     })
-    console.log('Adding ' + field.value)
     req.send('movie='+field.value)
 }
 
