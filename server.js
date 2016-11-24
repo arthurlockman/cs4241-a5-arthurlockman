@@ -29,11 +29,13 @@ var server = http.createServer (function (req, res) {
   var uri = url.parse(req.url)
 
   switch( uri.pathname ) {
+    case '/ajaxsearch':
+      handleSearchAjax(req, res)
+      break
     case '/search':
       handleSearch(res, uri)
       break
     case '/add':
-      console.log('Adding movie')
       handleAddMovie(req, res)
       break
     case '/delete':
@@ -93,7 +95,6 @@ function handleAddMovie(req, res) {
   })
   req.on('end', function () {
     var data = querystring.parse(chunk)
-    console.log(data)
     addMovie(data.movie)
     res.end('operation complete')
   })
@@ -176,6 +177,32 @@ function handleSearch(res, uri) {
     var rendered = mustache.render(html, {movielist: movieList, searchterm: searchTerm})
     res.writeHead(200, {'Content-type': contentType})
     res.end(rendered, 'utf-8')
+  })
+}
+
+function handleSearchAjax(req, res)
+{
+  var chunk = ''
+  req.on('data', function (data) {
+    chunk += data
+  })
+  req.on('end', function () {
+    var data = querystring.parse(chunk)
+    var movieList
+    if (data.query) {
+      searchTerm = data.query
+      searchResult = filterList(searchTerm, movies)
+      if (searchResult.length > 0) {
+        movieList = searchResult.map(function(d) { return generateListItem(d) }).join(' ')
+      } else {
+        movieList = '<div class="alert alert-danger" role="alert">No results found.</div>'
+      }
+    } else {
+      searchTerm = ""
+      movieList = '<div class="alert alert-warning" role="alert">No Search Term Provided!</div>'
+      movieList = movieList + movies.map(function(d) { return generateListItem(d) }).join(' ')
+    }
+    res.end(movieList)
   })
 }
 

@@ -5,6 +5,12 @@ window.onload = function () {
     $('.btn-delete').hide()
     document.getElementById("editButton").addEventListener("click", editButtonClick)
     document.getElementById('add-movie-button').addEventListener('click', addButtonClick)
+    document.getElementById('searchbutton').addEventListener('click', searchButtonClick)
+    $("#searchfield").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#searchbutton").click();
+    }
+});
 }
 
 function editButtonClick() {
@@ -42,7 +48,7 @@ function deleteButtonClick(button) {
 }
 
 function getMovieList() {
-    var req = new XMLHttpRequest();
+    var req = new XMLHttpRequest()
     req.onreadystatechange = function() {
         handleNewMovieList(req)
     }
@@ -58,4 +64,21 @@ function handleNewMovieList(req) {
         var list = document.getElementById('movie-list')
         list.innerHTML = req.responseText
     }
+}
+
+function searchButtonClick() {
+    var searchfield = document.getElementById('searchfield')
+    var req = new XMLHttpRequest()
+    req.open('POST', '/ajaxsearch', true)
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    req.onreadystatechange = function() {
+        handleNewMovieList(req)
+        $('.btn-delete').hide()
+        var currentLocation = document.createElement('a');
+        currentLocation.href = window.location.href
+        currentLocation.pathname = '/search'
+        currentLocation.search = '?searchterm=' + searchfield.value
+        history.pushState({}, $(document).find("title").text(), currentLocation.href)
+    }
+    req.send('query='+searchfield.value)
 }
