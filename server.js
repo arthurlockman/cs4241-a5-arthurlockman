@@ -33,6 +33,7 @@ var server = http.createServer (function (req, res) {
       handleSearch(res, uri)
       break
     case '/add':
+      console.log('Adding movie')
       handleAddMovie(req)
       res.end('operation complete')
       break
