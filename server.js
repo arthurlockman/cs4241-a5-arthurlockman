@@ -94,6 +94,7 @@ function handleAddMovie(req) {
   })
   req.on('end', function () {
     var data = querystring.parse(chunk)
+    console.log(data)
     addMovie(data.movie)
   })
 }
