@@ -33,10 +33,15 @@ var server = http.createServer (function (req, res) {
       handleSearch(res, uri)
       break
     case '/add':
-      handleAddMovie(res, req, uri)
+      handleAddMovie(req)
+      res.end('operation complete')
       break
     case '/delete':
-      handleDeleteMovie(res, req, uri)
+      handleDeleteMovie(req)
+      res.end('operation complete')
+      break
+    case '/list':
+      sendMovieList(res)
       break
     case '/':
       sendIndex(res)
@@ -76,32 +81,32 @@ console.log('listening on 8080')
 
 // subroutines
 
-function handleAddMovie(res, req, uri) {
-  if (req.method == 'POST') {
-    var postData = ''
-    req.on('data', function (data) {
-      postData += data
-    })
-    req.on('end', function () {
-      var post = querystring.parse(postData)
-      addMovie(post.movie)
-      sendIndex(res)
-    })
-  }
+function sendMovieList(res)
+{
+  var movieList = movies.map(function(d) { return generateListItem(d) }).join(' ')
+  res.end(movieList)
 }
 
-function handleDeleteMovie(res, req, uri) {
-  if (req.method == 'POST') {
-    var postData = ''
-    req.on('data', function (data) {
-      postData += data
-    })
-    req.on('end', function () {
-      var post = querystring.parse(postData)
-      deleteMovie(post.movie)
-      sendIndex(res)
-    })
-  }
+function handleAddMovie(req) {
+  var chunk = ''
+  req.on('data', function (data) {
+    chunk += data
+  })
+  req.on('end', function () {
+    var data = querystring.parse(chunk)
+    addMovie(data.movie)
+  })
+}
+
+function handleDeleteMovie(req) {
+  var chunk = ''
+  req.on('data', function (data) {
+    chunk += data
+  })
+  req.on('end', function () {
+    var data = querystring.parse(chunk)
+    deleteMovie(data.movie)
+  })
 }
 
 function addMovie(movieName)
@@ -179,6 +184,7 @@ function sendIndex(res) {
     if (err) {
       throw err
     }
+    loadFromS3()
     //Generate movie list
     movieList = movies.map(function(d) { return generateListItem(d) }).join(' ')
     

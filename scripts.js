@@ -4,6 +4,7 @@ window.onload = function () {
     $('#addMovieForm').hide()
     $('.btn-delete').hide()
     document.getElementById("editButton").addEventListener("click", editButtonClick)
+    document.getElementById('add-movie-button').addEventListener('click', addButtonClick)
 }
 
 function editButtonClick() {
@@ -20,27 +21,41 @@ function editButtonClick() {
     }
 }
 
-function deleteButtonClick(button) {
-    post('/delete', {movie: button.value})
+function addButtonClick() {
+    var field = document.getElementById('new-movie-name-field')
+    var req = new XMLHttpRequest()
+    req.open('POST', '/add', true)
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    req.addEventListener("load", function() {
+        field.value = ''
+        getMovieList()
+    })
+    req.send('movie='+field.value)
 }
 
-function post(path, parameters) {
-    //From http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
-    var form = $('<form></form>');
+function deleteButtonClick(button) {
+    var req = new XMLHttpRequest()
+    req.open('POST', '/delete', true)
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    req.addEventListener("load", getMovieList)
+    req.send('movie='+button.value)
+}
 
-    form.attr("method", "post");
-    form.attr("action", path);
+function getMovieList() {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        handleNewMovieList(req)
+    }
+    req.open('GET', '/list')
+    req.send()
+}
 
-    $.each(parameters, function(key, value) {
-        var field = $('<input></input>');
-
-        field.attr("type", "hidden");
-        field.attr("name", key);
-        field.attr("value", value);
-
-        form.append(field);
-    });
-
-    $(document.body).append(form);
-    form.submit();
+function handleNewMovieList(req) {
+    if (req.readyState !== XMLHttpRequest.DONE)
+        return
+    if (req.status === 200)
+    {
+        var list = document.getElementById('movie-list')
+        list.innerHTML = req.responseText
+    }
 }

@@ -28,18 +28,20 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
-            <ul class="list-group">
+            <ul class="list-group" id="movie-list">
                 {{{movielist}}}
             </ul>
-            <p><button class="btn btn-info" id="editButton">Edit</button></p>
+            <p>
+                <button class="btn btn-info" id="editButton">Edit</button>
+            </p>
             <div id="addMovieForm">
-                <form action="add" method="POST">
-                    <div class="form-group">
-                        <label for="searchterm">Enter a new movie name to add to the list</label>
-                        <input name="movie" placeholder="Space Jam 2: Electric Boogaloo" class="form-control"/>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Movie</button>
-                </form>
+                <div class="form-group">
+                    <label for="searchterm">Enter a new movie name to add to the list</label>
+                    <input id="new-movie-name-field" name="movie" placeholder="Space Jam 2: Electric Boogaloo" class="form-control"/>
+                </div>
+                <p>
+                    <button class="btn btn-primary" id="add-movie-button">Add Movie</button>
+                </p>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
