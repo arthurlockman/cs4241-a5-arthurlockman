@@ -34,12 +34,10 @@ var server = http.createServer (function (req, res) {
       break
     case '/add':
       console.log('Adding movie')
-      handleAddMovie(req)
-      res.end('operation complete')
+      handleAddMovie(req, res)
       break
     case '/delete':
-      handleDeleteMovie(req)
-      res.end('operation complete')
+      handleDeleteMovie(req, res)
       break
     case '/list':
       sendMovieList(res)
@@ -88,7 +86,7 @@ function sendMovieList(res)
   res.end(movieList)
 }
 
-function handleAddMovie(req) {
+function handleAddMovie(req, res) {
   var chunk = ''
   req.on('data', function (data) {
     chunk += data
@@ -97,10 +95,11 @@ function handleAddMovie(req) {
     var data = querystring.parse(chunk)
     console.log(data)
     addMovie(data.movie)
+    res.end('operation complete')
   })
 }
 
-function handleDeleteMovie(req) {
+function handleDeleteMovie(req, res) {
   var chunk = ''
   req.on('data', function (data) {
     chunk += data
@@ -108,6 +107,7 @@ function handleDeleteMovie(req) {
   req.on('end', function () {
     var data = querystring.parse(chunk)
     deleteMovie(data.movie)
+    res.end('operation complete')
   })
 }
 
