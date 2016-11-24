@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Movie Search</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-header theme-showcase" role="main">
+                <a class="navbar-brand" href="/">CS 4241 Movie Search</a>
+            </div>
+        </div>
+        <div class="container">
+            <h1>Movie Search!</h1>
+            <form action="search" method="GET">
+                <div class="form-group">
+                    <label for="searchterm">Enter a search term to filter the movie list</label>
+                    <input name="searchterm" placeholder="Search for a movie" class="form-control" value="{{{searchterm}}}"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <ul class="list-group">
+                {{{movielist}}}
+            </ul>
+            <p><button class="btn btn-info" id="editButton">Edit</button></p>
+            <div id="addMovieForm">
+                <form action="add" method="POST">
+                    <div class="form-group">
+                        <label for="searchterm">Enter a new movie name to add to the list</label>
+                        <input name="movie" placeholder="Space Jam 2: Electric Boogaloo" class="form-control"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Movie</button>
+                </form>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="/js/scripts.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">© 2016 Arthur Lockman - <a href="/readme.md">Readme</a>  - <a href="https://github.com/arthurlockman">Github</a> - <a href="http://b.rthr.me">Blog</a></p>
+        </div>
+    </footer>
+</html>

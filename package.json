@@ -1,0 +1,15 @@
+{
+  "name": "cs4241-a4-arthurlockman",
+  "version": "0.0.1",
+  "description": "WPI CS 4241 Assignment 3",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.7.0",
+    "marked": "^0.3.6",
+    "mustache": "^2.2.1"
+  }
+}
