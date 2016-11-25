@@ -161,20 +161,22 @@ function handleSearch(res, uri) {
       query = querystring.parse(uri.query)
       searchTerm = query['searchterm']
       searchResult = filterList(searchTerm, movies)
+      var banner = ''
       if (searchResult.length > 0) {
         movieList = searchResult.map(function(d) { return generateListItem(d) }).join(' ')
       } else {
-        movieList = '<div class="alert alert-danger" role="alert">No results found.</div>'
+        banner = '<div class="alert alert-danger" role="alert">No results found.</div>'
+        movieList = ''
       }
     } else {
       searchTerm = ""
-      movieList = '<div class="alert alert-warning" role="alert">No Search Term Provided!</div>'
-      movieList = movieList + movies.map(function(d) { return generateListItem(d) }).join(' ')
+      banner = ''
+      movieList = movies.map(function(d) { return generateListItem(d) }).join(' ')
     }
     
     //Serve rendered page
     mustache.parse(html)
-    var rendered = mustache.render(html, {movielist: movieList, searchterm: searchTerm})
+    var rendered = mustache.render(html, {banner: banner, movielist: movieList, searchterm: searchTerm})
     res.writeHead(200, {'Content-type': contentType})
     res.end(rendered, 'utf-8')
   })
@@ -193,16 +195,20 @@ function handleSearchAjax(req, res)
       searchTerm = data.query
       searchResult = filterList(searchTerm, movies)
       if (searchResult.length > 0) {
+        banner = ''
         movieList = searchResult.map(function(d) { return generateListItem(d) }).join(' ')
       } else {
-        movieList = '<div class="alert alert-danger" role="alert">No results found.</div>'
+        banner = '<div class="alert alert-danger" role="alert">No results found.</div>'
+        movieList = ''
       }
     } else {
       searchTerm = ""
-      movieList = '<div class="alert alert-warning" role="alert">No Search Term Provided!</div>'
-      movieList = movieList + movies.map(function(d) { return generateListItem(d) }).join(' ')
+      banner = ''
+      movieList = movies.map(function(d) { return generateListItem(d) }).join(' ')
     }
-    res.end(movieList)
+    res.end('<div id="banner">' + banner + 
+            '</div><ul class="list-group" id="movie-list">' + 
+            movieList + '</ul>')
   })
 }
 

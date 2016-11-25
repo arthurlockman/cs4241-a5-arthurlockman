@@ -5,12 +5,13 @@ window.onload = function () {
     $('.btn-delete').hide()
     document.getElementById("editButton").addEventListener("click", editButtonClick)
     document.getElementById('add-movie-button').addEventListener('click', addButtonClick)
-    document.getElementById('searchbutton').addEventListener('click', searchButtonClick)
     $("#searchfield").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#searchbutton").click();
-    }
-});
+        // if(event.keyCode == 13)
+        // {
+        //     $("#searchbutton").click()
+        // }
+        search()
+    })
 }
 
 function editButtonClick() {
@@ -61,12 +62,12 @@ function handleNewMovieList(req) {
         return
     if (req.status === 200)
     {
-        var list = document.getElementById('movie-list')
-        list.innerHTML = req.responseText
+        var results = document.getElementById('searchresults')
+        results.innerHTML = req.responseText
     }
 }
 
-function searchButtonClick() {
+function search() {
     var searchfield = document.getElementById('searchfield')
     var req = new XMLHttpRequest()
     req.open('POST', '/ajaxsearch', true)

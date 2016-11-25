@@ -26,13 +26,15 @@
                     <label for="searchterm">Enter a search term to filter the movie list</label>
                     <input id="searchfield" name="searchterm" placeholder="Search for a movie" class="form-control" value="{{{searchterm}}}"/>
                 </div>
-                <p>
-                    <button id="searchbutton" type="submit" class="btn btn-primary">Search</button>
-                </p>
             </div>
-            <ul class="list-group" id="movie-list">
-                {{{movielist}}}
-            </ul>
+            <div id="searchresults">
+                <div id="banner">
+                    {{{banner}}}
+                </div>
+                <ul class="list-group" id="movie-list">
+                    {{{movielist}}}
+                </ul>
+            </div>
             <p>
                 <button class="btn btn-info" id="editButton">Edit</button>
             </p>
