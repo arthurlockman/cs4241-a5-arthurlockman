@@ -4,7 +4,25 @@ Assignment 5 - AJAX
 
 ## Technical Achievement - A5
 
-In addition to the achievements from A4 (detailed below), I improved A5 in the following ways.
+In addition to the achievements from A4 (detailed below), I improved A5 by implementing search-as-you-type using AJAX, and re-writing of the URL in the browser as the search is taking place.
+
+### Search-as-you-type
+
+The first big improvement was the removal of the search button. Instead I opted to use AJAX and Javascript to implement search-as-you-type. Instead of having to press return or click the search button on mobile to search, searches are simply executed as the user types in the web page. This required modifying the template that I used to generate the page to allow more of it to be dynamically generated and replaced. Code for this is partly in the [html template](http://cs4241-a4-arthurlockman.herokuapp.com/template.html), partly in the [server code](http://cs4241-a4-arthurlockman.herokuapp.com/server.js), and partly in the [page JS](http://cs4241-a4-arthurlockman.herokuapp.com).
+
+### URL Rewrite
+
+To go along with the removal of the search button, I needed to make sure that links were still copyable from the URL bar in the browser to enable sharing of searches (as defined in the original assignment document). To do this, I used Javascript's `history` class to change the URL in the title bar:
+
+```javascript
+var currentLocation = document.createElement('a');
+currentLocation.href = window.location.href
+currentLocation.pathname = '/search'
+currentLocation.search = '?searchterm=' + searchfield.value
+history.pushState({}, $(document).find("title").text(), currentLocation.href)
+```
+
+This code needed to generate a new dummy element to get the current URL because modifying the `currentLocation` directly with JS would cause the browser to change pages instead of just re-writing the contents of the URL bar. This code can be found in the [page JS](http://cs4241-a4-arthurlockman.herokuapp.com).
 
 Technical Achievement - A4
 ---
