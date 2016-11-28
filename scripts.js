@@ -5,11 +5,7 @@ window.onload = function () {
     $('.btn-delete').hide()
     document.getElementById("editButton").addEventListener("click", editButtonClick)
     document.getElementById('add-movie-button').addEventListener('click', addButtonClick)
-    $("#searchfield").keyup(function(event){
-        // if(event.keyCode == 13)
-        // {
-        //     $("#searchbutton").click()
-        // }
+    $("#searchfield").keyup(function(event) {
         search()
     })
 }
